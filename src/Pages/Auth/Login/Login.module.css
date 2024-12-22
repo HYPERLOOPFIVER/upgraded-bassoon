@@ -1,0 +1,157 @@
+/* Importing a premium Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* Base container for the login page */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #1d1f21, #121417); /* Darker premium gradient */
+  font-family: "Poppins", sans-serif;
+  position: relative;
+  color: #ffffff;
+}
+
+/* Decorative spheres */
+.sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.7;
+  animation: float 15s infinite ease-in-out;
+}
+
+.sphere-1 {
+  background: radial-gradient(circle, #7f5af0, #2d2d7e);
+  width: 400px;
+  height: 400px;
+  top: 10%;
+  left: 20%;
+}
+
+.sphere-2 {
+  background: radial-gradient(circle, #ff6363, #a92e2e);
+  width: 500px;
+  height: 500px;
+  bottom: 15%;
+  right: 25%;
+}
+
+.sphere-3 {
+  background: radial-gradient(circle, #4e9dff, #205295);
+  width: 300px;
+  height: 300px;
+  bottom: 30%;
+  left: 10%;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+/* Form container with frosted glass effect */
+.formContainer {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+/* Title for the form */
+/* Title for the form */
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    background: linear-gradient(90deg, #ff7eb3, #7f5af0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #ffffff; /* Fallback color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+  }
+  
+/* Input groups */
+.inputGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #d1d5db;
+}
+
+.input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #7f5af0;
+  box-shadow: 0 0 10px rgba(127, 90, 240, 0.7);
+}
+
+/* Error message */
+.error {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Button styling */
+.button {
+  background: linear-gradient(90deg, #7f5af0, #ff7eb3);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(127, 90, 240, 0.5);
+}
+
+/* Footer text */
+.footerText {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #cfcfcf;
+}
+
+.footerText a {
+  color: #7f5af0;
+  text-decoration: none;
+}
+
+.footerText a:hover {
+  text-decoration: underline;
+}
