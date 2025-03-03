@@ -1,136 +1,101 @@
 import { useEffect, useState } from 'react';
-import { db } from '../../Firebase'; // Import Firestore
-import { collection, getDocs } from 'firebase/firestore'; // Firestore functions
-import SplashScreen from '../Dashboard/Splash'; // Import the SplashScreen component
+import { db } from '../../Firebase';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import styles from './Notice.module.css'; // Import CSS file
 
-const Notices = () => {
+const NoticesDisplay = () => {
   const [notices, setNotices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [filter, setFilter] = useState("all");
+  const [selectedDate, setSelectedDate] = useState("");
 
   useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, 'notices')); // Fetch notices from Firestore
-        const noticesArray = [];
-        querySnapshot.forEach((doc) => {
-          noticesArray.push({ id: doc.id, ...doc.data() });
-        });
-        setNotices(noticesArray); // Store notices in state
-      } catch (error) {
-        setError(`Error fetching notices: ${error.message}`);
-      } finally {
-        setLoading(false); // Stop loading after data is fetched
-      }
-    };
+    let q = query(collection(db, 'notices'), orderBy('timestamp', 'desc'));
 
-    fetchNotices();
-  }, []); // Empty dependency array means it runs once when the component mounts
+    if (filter === "today") {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      q = query(q, where('timestamp', '>=', today));
+    } else if (filter === "date" && selectedDate) {
+      const selected = new Date(selectedDate);
+      selected.setHours(0, 0, 0, 0);
+      const nextDay = new Date(selected);
+      nextDay.setDate(nextDay.getDate() + 1);
 
-  const styles = {
-    noticesContainer: {
-      backgroundColor: '#121212',
-      color: '#fff',
-      padding: '20px',
-      borderRadius: '8px',
-      maxWidth: '95%',
-      margin: '20px auto',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
-      overflow: 'hidden',
-      wordWrap: 'break-word',
-    },
-    noticesTitle: {
-      textAlign: 'center',
-      color: '#1e90ff',
-      fontSize: '24px',
-      marginBottom: '20px',
-    },
-    noticesList: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '15px',
-    },
-    noticeCard: {
-      backgroundColor: '#1e1e1e',
-      padding: '15px',
-      borderRadius: '8px',
-      border: '1px solid #333',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'pre-wrap', // Ensures the text wraps properly
-      wordBreak: 'break-word', // Prevents words from breaking the layout
-    },
-    noticeTitle: {
-      color: '#1e90ff',
-      fontSize: '18px',
-      marginBottom: '8px',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'nowrap', // Keeps title on one line
-    },
-    noticeContent: {
-      fontSize: '14px',
-      lineHeight: '1.5',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      whiteSpace: 'pre-wrap', // Wraps long content
-      wordBreak: 'break-word', // Prevents breaking words in the middle
-    },
-    noNotices: {
-      textAlign: 'center',
-      marginTop: '20px',
-      fontSize: '16px',
-    },
-    loadingText: {
-      color: '#fff',
-      textAlign: 'center',
-      marginTop: '20px',
-      fontSize: '18px',
-    },
-    errorText: {
-      color: '#ff4d4f',
-      textAlign: 'center',
-      marginTop: '20px',
-      padding: '10px',
-      fontSize: '16px',
-      backgroundColor: '#fff5f5',
-      borderRadius: '5px',
-    },
+      q = query(q, where('timestamp', '>=', selected), where('timestamp', '<', nextDay));
+    }
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const noticesData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setNotices(noticesData);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [filter, selectedDate]);
+
+  const isImage = (fileUrl) => {
+    return fileUrl && /\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(fileUrl);
   };
 
-  if (loading) {
-    return <SplashScreen />; // Show splash screen while loading
-  }
-
-  if (error) {
-    return (
-      <div style={styles.errorText}>
-        {error}
-      </div>
-    );
-  }
-
   return (
-    <div style={styles.noticesContainer}>
-      <h2 style={styles.noticesTitle}>Notices</h2>
-      <div>
-        {notices.length === 0 ? (
-          <p style={styles.noNotices}>No notices available at the moment.</p>
-        ) : (
-          notices.map((notice) => (
-            <div key={notice.id} style={styles.noticeCard}>
-              <h3 style={styles.noticeTitle}>
-                {notice.title || 'Untitled Notice'}
-              </h3>
-              <p style={styles.noticeContent}>
-                {notice.content}
+    <div className={styles.container}>
+      <h2 className={styles.heading}>Notices</h2>
+
+      {/* Filters */}
+      <div className={styles.filters}>
+        <button onClick={() => setFilter("all")}>All</button>
+        <button onClick={() => setFilter("today")}>Today</button>
+        <input 
+          type="date" 
+          value={selectedDate} 
+          onChange={(e) => {
+            setSelectedDate(e.target.value);
+            setFilter("date");
+          }} 
+        />
+      </div>
+
+      {loading ? (
+        <p className={styles.loading}>Loading notices...</p>
+      ) : notices.length === 0 ? (
+        <p className={styles.noNotices}>No notices available.</p>
+      ) : (
+        <div className={styles.noticeList}>
+          {notices.map(({ id, title, content, fileUrl, timestamp, author }) => (
+            <div key={id} className={styles.noticeCard}>
+              <h3 className={styles.noticeTitle}>{title}</h3>
+              <p className={styles.noticeContent}>{content}</p>
+
+              {fileUrl && (
+                <div className={styles.attachment}>
+                  {isImage(fileUrl) ? (
+                    <img src={fileUrl} alt="Notice Attachment" className={styles.noticeImage} />
+                  ) : (
+                    <a
+                      href={fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.attachmentLink}
+                    >
+                      View Attachment
+                    </a>
+                  )}
+                </div>
+              )}
+
+              <p className={styles.noticeFooter}>
+                {author} - {new Date(timestamp?.toDate()).toLocaleString()}
               </p>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default Notices;
+export default NoticesDisplay;

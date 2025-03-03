@@ -14,15 +14,13 @@ const TotalStudents = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const usersCollection = collection(db, 'users'); // Fetch from 'users' collection
-        const usersSnapshot = await getDocs(usersCollection);
-        const usersList = usersSnapshot.docs
-          .map((doc) => ({
-            id: doc.id, // Add doc.id to identify students uniquely
-            ...doc.data()
-          }))
-          .filter((user) => user.role === 'student'); // Filter students from users collection
-        setStudents(usersList);
+        const studentsCollection = collection(db, 'students'); // Fetch from 'students' collection
+        const studentsSnapshot = await getDocs(studentsCollection);
+        const studentsList = studentsSnapshot.docs.map((doc) => ({
+          id: doc.id, // Add doc.id to identify students uniquely
+          ...doc.data()
+        }));
+        setStudents(studentsList);
       } catch (error) {
         setError('Error fetching student data: ' + error.message);
       } finally {
@@ -53,9 +51,12 @@ const TotalStudents = () => {
 
   // Function to delete a student
   const handleDelete = async (studentId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this student?');
+    if (!confirmDelete) return;
+
     try {
       // Get the reference to the student document using the ID
-      const studentDocRef = doc(db, 'users', studentId);
+      const studentDocRef = doc(db, 'students', studentId);
 
       // Delete the document from Firestore
       await deleteDoc(studentDocRef);

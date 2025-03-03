@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebas
 import firebaseApp from "../../../Firebase";
 import styles from "../Login/Login.module.css";
 import { useNavigate } from "react-router-dom";
-import SplashScreen from "../../Dashboard/Splash"; // Import SplashScreen
+import { OrbitProgress } from "react-loading-indicators";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -49,19 +49,17 @@ const Login = () => {
   };
 
   if (isLoading) {
-    return <SplashScreen />; // Show splash screen while loading
+    return <div><OrbitProgress color="#000000" size="medium" text="BVM" textColor="#000000" /></div>; // Show splash screen while loading
   }
 
   return (
     <div className={styles.container}>
       {/* Decorative Spheres */}
-      <div className={`${styles.sphere} ${styles.sphere-1}`}></div>
-      <div className={`${styles.sphere} ${styles.sphere-2}`}></div>
-      <div className={`${styles.sphere} ${styles.sphere-3}`}></div>
 
       {/* Login Form */}
       <div className={styles.formContainer}>
-        <h1 className={styles.title}>Sign in to Student Portal</h1>
+        
+        <h1 className={styles.title}>Birla Vidya Mandir</h1>
         <form onSubmit={handleLogin}>
           <div className={styles.inputGroup}>
             <label htmlFor="email" className={styles.label}>
