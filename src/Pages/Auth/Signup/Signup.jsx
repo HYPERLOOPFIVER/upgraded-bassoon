@@ -2,53 +2,51 @@ import { useState } from 'react';
 import { auth, db } from '../../../Firebase';  // Import auth and db from Firebase
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import styles from './Signup.module.css'; // Import the CSS module
+import styles from './Signup.module.css'; // Updated CSS module name
 
-const Signup = () => {
+const CreateStudent = () => {
   const [name, setName] = useState('');
   const [fname, setFname] = useState('');
   const [folio, setFolio] = useState('');
   const [house, setHouse] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [parentsPhone, setParentsPhone] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Create user in Firebase Authentication
+      // Create student account in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Create student data to be added to Firestore
+      // Store student details in Firestore
       const studentData = {
         name,
         fname,
         folio,
         house,
         email,
-        role: 'student',  // Role for this user is student
+        parentsPhone, // Added parent's phone number field
+        role: 'student',
       };
 
-      // Add student data to Firestore (in users collection)
-      await setDoc(doc(db, 'users', user.uid), studentData);  // Store the student data in Firestore using user.uid as document ID
+      await setDoc(doc(db, 'students', user.uid), studentData);
 
-      alert('Student added successfully');
-      navigate('/dashboard');  // Redirect to the Dashboard after adding the student
+      alert('Student account created successfully');
     } catch (error) {
-      setError(`Error adding student: ${error.message}`);
+      setError(`Error: ${error.message}`);
     }
   };
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.formContainer}>
-        <h2>Add a New Student</h2>
+        <h2>Create Student Account</h2>
         {error && <div className={styles.error}>{error}</div>}
-        
+
         <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.label}>Name</label>
           <input
@@ -98,6 +96,18 @@ const Signup = () => {
         </div>
 
         <div className={styles.inputGroup}>
+          <label htmlFor="parentsPhone" className={styles.label}>Parents' Phone No.</label>
+          <input
+            type="tel"
+            id="parentsPhone"
+            className={styles.input}
+            value={parentsPhone}
+            onChange={(e) => setParentsPhone(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.inputGroup}>
           <label htmlFor="email" className={styles.label}>Email</label>
           <input
             type="email"
@@ -121,10 +131,10 @@ const Signup = () => {
           />
         </div>
 
-        <button type="submit" className={styles.button}>Add Student</button>
+        <button type="submit" className={styles.button}>Create Student</button>
       </form>
     </div>
   );
 };
 
-export default Signup;
+export default CreateStudent;

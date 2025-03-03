@@ -1,54 +1,194 @@
 .container {
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border-radius: 16px;
-    padding: 20px;
-    max-width: 900px;
-    margin: 20px auto;
-    text-align: center;
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: #f8f9ff;
+    font-family: 'Poppins', 'SF Pro Display', sans-serif;
+    padding: 2rem;
+  }
+  
+  /* Background pattern */
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60vh;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(101, 115, 255, 0.2) 0%, transparent 20%),
+      radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.15) 0%, transparent 20%),
+      linear-gradient(135deg, #e6ecff 0%, #f0f4ff 100%);
+    z-index: 0;
   }
   
   h1 {
-    font-size: 24px;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .printButton {
+    position: relative;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: #5468ff;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 1.5rem;
+  }
+  
+  .printButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(84, 104, 255, 0.3);
+  }
+  
+  .printButton:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
   .studentList {
-    overflow-x: auto;
+    position: relative;
+    z-index: 1;
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  }
+  
+  .studentList p {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
   }
   
   .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 1rem;
   }
   
   .table th,
   .table td {
     padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #fff;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
   }
   
   .table th {
-    background: linear-gradient(90deg, #7f5af0, #ff7eb3);
-    color: #ffffff;
+    background-color: #f7fafc;
+    font-weight: 600;
+    color: #2d3748;
+    text-transform: uppercase;
+    font-size: 0.9rem;
   }
   
   .table td {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    color: #4a5568;
   }
   
-  .table tr:hover {
-    background: rgba(255, 255, 255, 0.2);
+  .chatButton,
+  .deleteButton {
+    position: relative;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-right: 0.5rem;
+  }
+  
+  .chatButton {
+    background: #ff54a8;
+  }
+  
+  .chatButton:hover {
+    background: #ff3a8e;
+  }
+  
+  .deleteButton {
+    background: #ff4757;
+  }
+  
+  .deleteButton:hover {
+    background: #ff2d3a;
   }
   
   .error {
-    color: #ff6b6b;
-    font-size: 16px;
-    margin-bottom: 16px;
+    color: white;
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ff4757;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
   }
   
+  /* Loading state */
+  .loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #4a5568;
+    margin-top: 2rem;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    h1 {
+      font-size: 1.75rem;
+    }
+  
+    .printButton {
+      width: 100%;
+      text-align: center;
+    }
+  
+    .table th,
+    .table td {
+      padding: 8px;
+    }
+  
+    .chatButton,
+    .deleteButton {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .table {
+      display: block;
+      overflow-x: auto;
+    }
+  
+    .table th,
+    .table td {
+      white-space: nowrap;
+    }
+  }

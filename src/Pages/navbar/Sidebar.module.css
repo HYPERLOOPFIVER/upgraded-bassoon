@@ -1,80 +1,77 @@
 /* Sidebar.module.css */
-
-/* Sidebar at the bottom */
 .sidebar {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100%;
-  background-color: #000; /* Black background */
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.5);
-  z-index: 10;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Sidebar menu items */
 .menuItems {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  align-items: center;
 }
 
 .menuItem {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  color: #666;
   text-decoration: none;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  transition: transform 0.3s ease, color 0.3s ease;
+  position: relative;
 }
 
-.menuItem:hover {
-  transform: translateY(-4px);
-  color: #ff7eb3; /* Light pink on hover */
+.menuItem:hover,
+.menuItem:active {
+  background: rgba(0, 0, 0, 0.03);
+  transform: translateY(-2px);
+}
+
+.menuItem.active {
+  color: #6366f1;
 }
 
 .icon {
-  font-size: 24px;
-  margin-bottom: 5px;
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
+  transition: all 0.2s ease;
 }
 
 .text {
-  font-size: 12px;
-  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
-/* Content wrapper for scrolling */
-.contentWrapper {
-  min-height: 100vh; /* Full height for scrolling */
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  padding-bottom: 80px; /* Prevent overlap with sidebar */
+/* Active state indicator */
+.menuItem.active::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  width: 4px;
+  height: 4px;
+  background: #6366f1;
+  border-radius: 50%;
 }
 
-.pageContent {
-  padding: 20px; /* Add padding to the main content */
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
+/* Responsive design */
+@media (min-width: 768px) {
   .sidebar {
-    padding: 8px 0;
-    border-radius: 15px;
-  }
-
-  .menuItem {
-    font-size: 12px;
-  }
-
-  .contentWrapper {
-    padding-bottom: 100px; /* Ensure space for the sidebar */
+    max-width: 480px;
+    margin: 0 auto;
+    border-radius: 16px 16px 0 0;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
   }
 }

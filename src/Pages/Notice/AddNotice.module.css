@@ -1,52 +1,104 @@
+/* AddNotice.module.css */
+
 .formContainer {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    position: relative;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 3rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-in-out;
   }
+  
+  h2 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #5468ff, #ff54a8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+font-family: Arial, Helvetica, sans-serif;  
+}
   
   .inputGroup {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
   }
   
-  label {
-    display: block;
-    color: #ffffff;
-    font-size: 14px;
-    margin-bottom: 8px;
+  .inputGroup label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+    font-family: Arial, Helvetica, sans-serif;
   }
   
-  input,
-  textarea {
-    width: 100%;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid #ccc;
-    color: #ffffff;
+  .inputGroup input, .inputGroup textarea {
+    padding: 0.75rem;
     border-radius: 8px;
+    border: 2px solid #e0e7ff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .inputGroup input:focus, .inputGroup textarea:focus {
+    border-color: #5468ff;
+    outline: none;
+    box-shadow: 0 0 8px rgba(84, 104, 255, 0.3);
   }
   
   textarea {
-    height: 150px;
+    min-height: 120px;
+    resize: vertical;
   }
   
   button {
-    background: linear-gradient(90deg, #7f5af0, #ff7eb3);
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
     width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    background: #7209b7;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(114, 9, 183, 0.3);
   }
   
   button:hover {
-    background: linear-gradient(90deg, #ff7eb3, #7f5af0);
+    background: #5a07a3;
+    box-shadow: 0 6px 16px rgba(114, 9, 183, 0.4);
   }
-  .container{
-    background-color:rgba(255, 255, 255, 0.096);
-    border-radius: 8px;
-    padding: 10px,8px;
+  
+  button:disabled {
+    background: #b0a4c2;
+    cursor: not-allowed;
+    box-shadow: none;
   }
+  
+  .error {
+    text-align: center;
+    padding: 1rem;
+    color: white;
+    background-color: #ff4757;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(255, 71, 87, 0.3);
+  }
+  
+  /* Animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome, FaUserAlt, FaFileAlt, FaSignOutAlt } from 'react-icons/fa';
 import styles from './Sidebar.module.css'; // Importing CSS for the Sidebar
-
+import { GoHome, GoBell} from "react-icons/go";
+import { CgProfile } from "react-icons/cg";
+import { PiHamburger } from "react-icons/pi";
+import { FiMessageCircle } from "react-icons/fi";
 const Bar = () => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -19,20 +22,20 @@ const Bar = () => {
         </div>
         <div className={styles.menuItems}>
           <Link to="/" className={styles.menuItem}>
-            <FaHome className={styles.icon} />
-            <span className={styles.text}>Home</span>
+            <GoHome className={styles.icon} />
+          
           </Link>
           <Link to="/profile" className={styles.menuItem}>
-            <FaUserAlt className={styles.icon} />
-            <span className={styles.text}>Profile</span>
+            <CgProfile className={styles.icon} />
+          
           </Link>
           <Link to="/Not" className={styles.menuItem}>
-            <FaFileAlt className={styles.icon} />
-            <span className={styles.text}>Notices</span>
+            <GoBell className={styles.icon} />
+          
           </Link>
-          <Link to="/" className={styles.menuItem}>
-            <FaSignOutAlt className={styles.icon} />
-            <span className={styles.text}>Logout</span>
+          <Link to="/home" className={styles.menuItem}>
+            <FiMessageCircle className={styles.icon} />
+            
           </Link>
         </div>
       </div>
